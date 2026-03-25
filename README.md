@@ -1,66 +1,77 @@
-# Previsão de Séries Temporais — Holt‑Winters
+# Time Series Forecasting — Holt-Winters
 
-Este projeto cria e analisa **dados sintéticos** que simulam a temperatura operacional de um motor ao longo do tempo, com **tendência**, **sazonalidade diária** e **ruído**. O objetivo é aplicar um modelo de previsão de séries temporais (Holt‑Winters / Suavização Exponencial) e **comparar o desempenho** com um modelo **baseline ingênuo**.
+This project demonstrates, in an educational approach, how to **generate a synthetic time series** (operational temperature of an engine) and apply a **Holt-Winters Exponential Smoothing** model to **forecast the next 24 hours** based on historical patterns of **trend** and **daily seasonality**.
 
-> Observação: este notebook foi construído aplicando conhecimentos do curso da capacitação do **PNAAT — Análise Preditiva de Dados de Sensores**.
-
----
-
-## Visão geral
-
-A série temporal é gerada com:
-- **Tendência (trend):** crescimento gradual (ex.: 30°C → 35°C ao longo do período).
-- **Sazonalidade (seasonality):** ciclo diário simulado com seno (período de 96 pontos = 24h com amostragem a cada 15 min).
-- **Ruído (noise):** variação aleatória (distribuição normal).
-
-Em seguida:
-1. O dataset é dividido em **treino** e **teste** (últimas 24h como teste).
-2. Treina-se um modelo **Holt‑Winters** com tendência e sazonalidade aditivas.
-3. Cria-se uma **baseline sazonal ingênua (Seasonal Naive)** para comparação.
-4. Avalia-se o desempenho com métricas de erro.
+> Note: The data used is **synthetic** (simulated) for study and method validation purposes.
 
 ---
 
-## Modelos usados
+## Visualization
 
-### 1) Holt‑Winters (Suavização Exponencial)
-Configurado com:
-- `trend='add'`
-- `seasonal='add'`
-- `seasonal_periods=96` (ciclo diário de 24h)
+The image below shows the comparison between the **actual test data** and the **model's forecast**, highlighting the daily seasonal behavior.
 
-### 2) Baseline — Seasonal Naive
-Assume que as próximas 24h serão iguais às últimas 24h do conjunto de treino (repete o padrão sazonal mais recente), **sem aprender tendência**.
+![Comparison between actual series and forecast](assets/graph.png)
 
 ---
 
-## Métricas de avaliação
+## Objective
 
-O projeto utiliza:
-- **MAE** (Erro Médio Absoluto) — em °C
-- **RMSE** (Raiz do Erro Quadrático Médio) — em °C
-- **MAPE** (Erro Percentual Absoluto Médio) — em %
-
-A expectativa é o Holt‑Winters ter erros menores que a baseline (o que indica ganho real do modelo).
-
----
-
-## Principais bibliotecas
-
-- **NumPy** — geração de dados e ruído
-- **Pandas** — index temporal e DataFrame
-- **Matplotlib** — visualizações
-- **Statsmodels** — Holt‑Winters (ExponentialSmoothing)
-- **Scikit-learn** — métricas (MAE, RMSE, MAPE)
+- Simulate temperature measurements at regular intervals (every **15 minutes**).
+- Model the series considering:
+  - **Trend** (gradual growth)
+  - **Seasonality** (daily cycle)
+  - **Noise** (random variation)
+- Train a **Holt-Winters** model and evaluate the forecast.
+- Compare the model against a **Seasonal Naive baseline**.
 
 ---
 
-## Como executar
+## Methodology (Summary)
 
-1. Abra o notebook `time_series_forecasting.ipynb` no Jupyter/Colab.
-2. Execute as células em ordem.
-3. Verifique:
-   - saída das métricas (Holt‑Winters vs baseline)
-   - gráfico final com as três curvas (treino, teste, previsão e baseline)
+1. **Timeframe generation**: 7 days with a 15-minute frequency.
+2. **Series composition**:
+   - Linear trend (e.g., 30 → 35 °C)
+   - Sinusoidal seasonality with a daily period (96 points per day)
+   - Gaussian noise (with `np.random.seed(42)` for reproducibility)
+3. **Temporal Split**:
+   - Train: First 6 days
+   - Test: Last 24h (96 points)
+4. **Models**:
+   - **Holt-Winters** (additive trend + additive seasonality)
+   - **Seasonal Naive baseline** (repeats the last 24h of the training set)
+5. **Evaluation Metrics**:
+   - MAE
+   - RMSE
+   - MAPE
+
+---
+
+## Main Results
+
+In the notebook, the Holt-Winters model achieved **lower errors** than the naive baseline. This indicates that the predictive model successfully captured the **trend + seasonality**, whereas the baseline tends to simply "copy" the previous day and fails to track the continuous trend.
+
+*(Exact values may vary if you change parameters, timeframe, noise, or the random seed.)*
+
+---
+
+## Technologies & Libraries
+
+- **Python**
+- **NumPy** (signal and noise generation)
+- **Pandas** (time series and tabular manipulation)
+- **Matplotlib** (visualization)
+- **statsmodels** (Holt-Winters / ExponentialSmoothing)
+- **scikit-learn** (MAE, RMSE, MAPE)
+
+---
+
+## How to Run
+
+1. Open the **`time_series_forecasting.ipynb`** file (e.g., in Google Colab or Jupyter).
+2. Run the cells in sequential order.
+
+## PNAAT
+
+This notebook was developed by applying the knowledge acquired from the **PNAAT training course — Predictive Analysis of Sensor Data**.
 
 ---
