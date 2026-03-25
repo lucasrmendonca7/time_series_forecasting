@@ -21,20 +21,6 @@ Em seguida:
 
 ---
 
-## Estrutura do notebook (pipeline)
-
-1. **Geração do índice temporal** (7 dias em intervalos de 15 minutos)  
-2. **Construção da série sintética**
-   - trend + seasonality + noise
-3. **DataFrame**
-4. **Split treino/teste**
-5. **Modelo Holt‑Winters (ExponentialSmoothing)**
-6. **Baseline (Seasonal Naive)**
-7. **Comparação de métricas**
-8. **Gráficos de validação** (real x previsto x baseline)
-
----
-
 ## Modelos usados
 
 ### 1) Holt‑Winters (Suavização Exponencial)
@@ -78,15 +64,3 @@ A expectativa é o Holt‑Winters ter erros menores que a baseline (o que indica
    - gráfico final com as três curvas (treino, teste, previsão e baseline)
 
 ---
-
-## Observações e possíveis melhorias
-
-- Testar **intervalos maiores** (mais semanas/meses) para avaliar estabilidade do modelo.
-- Fazer **validação temporal** (ex.: walk-forward / rolling forecast origin) ao invés de uma única divisão treino/teste.
-- Avaliar outras abordagens (ARIMA/SARIMA, Prophet, modelos ML com features de tempo, etc.).
-
----
-
-## Autor
-
-Projeto desenvolvido para prática de previsão de séries temporais com dados de sensores, aplicando os conhecimentos da capacitação do **PNAAT — Análise Preditiva de Dados de Sensores**.
